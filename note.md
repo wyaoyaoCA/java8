@@ -225,14 +225,21 @@ public void testFindApplePredicate(){
 `study.wyy.java8.lambda.client.SupplierTest`
 
 ### 3 方法引用
+`study.wyy.java8.lambda.client.MethodRefTest`
 
 如果lambda体中的内容的方法已经实现了，我们可以使用"方法引用"
 可以理解为方法引用是lambda的另一种表现形式
 
-主要有三种语法格式
+
+
+> 主要有三种语法格式
 - 对象::实例方法名
 - 类::静态方法名
 - 类::实例方法名
+
+> 注意
+- lambda体中的调用方法的参数列表与返回值类型，要与函数式接口中的抽象方法的函数列表和返回值类型保持一致
+- lambda表达式参数列表中的第一个参数是实例方法的调用者，第二个参数是该实例方法的入参，就可以使用 `类::实例方法名`
 
 #### 对象::实例方法名
 ```java
@@ -292,3 +299,82 @@ public void test1(){
         assertThat(res, equalTo(-1));
     }
 ```
+
+#### 类::实例方法名
+
+
+
+```java
+/**
+ * 类::实例方法名
+ *     使用时机：
+ *      lambda表达式参数列表中的第一个参数是实例方法的调用者，第二个参数是该实例方法的入参
+ */
+@Test
+public void test4(){
+    // 比较两个字符串是否一样
+
+    // 1 匿名内部类
+    BiPredicate<String,String> biPredicate = new BiPredicate<String,String> (){
+
+        @Override
+        public boolean test(String s1, String s2) {
+            return s1.equals(s2);
+        }
+    };
+
+    // 2 lambda表达式
+    BiPredicate<String,String> biPredicate2 = (s1,s2) -> {return s1.equals(s2);};
+    // 2.1 简化的lambda表达式
+    BiPredicate<String,String> biPredicate3 = (s1,s2) ->  s1.equals(s2);
+
+    // 3 方法引用
+    /**
+     * BiPredicate<String,String> biPredicate3 = (s1,s2) ->  s1.equals(s2);
+     *  推导：
+     *      1 String.equals方法是实例方法
+     *      2 s1是equals方法的调用者
+     *      3 s2是equals方法的形参
+     *
+     */
+    BiPredicate<String,String> biPredicate4 = String::equals;
+}
+```
+
+### 4 构造器引用
+
+`study.wyy.java8.lambda.client.MethodRefTest`
+
+> 格式：
+> ClassName::new
+
+
+```java
+public void test5(){
+    // 1 匿名内部类
+    Supplier<Apple> supplier = new Supplier<Apple>() {
+        @Override
+        public Apple get() {
+            return new Apple();
+        }
+    };
+
+    // 2 lambda
+    Supplier<Apple> supplier1 = () -> {return new Apple();};
+    // lambda简化
+    Supplier<Apple> supplier2 = () -> new Apple();
+
+    // 3 构造器引用
+    Supplier<Apple> supplier3 = Apple::new;
+
+    /**
+     * 请问这里调用的是哪个构造器，目前Apple提供了两个构造函数：无参构造和两个参数的有参构造
+     *
+     *    和方法引用一样（说白了构造方法也是方法啊）
+     *        Supplier函数式接口的get抽象方法是没有形参的，由于要和函数式接口的抽象方法的参数列表一致，
+     *        所以这里对应的就是无参构造
+     */
+
+}
+```
+ 
