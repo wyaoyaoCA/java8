@@ -1,12 +1,12 @@
-package study.wyy.java8.start.client;
+package study.wyy.java8.lambda.client;
 
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import study.wyy.java8.start.filter.AppleFilter;
-import study.wyy.java8.start.filter.impl.AppleFilterByGreenAndWeightLess180;
-import study.wyy.java8.start.model.Apple;
-import study.wyy.java8.start.service.AppleService;
+import study.wyy.java8.lambda.filter.AppleFilter;
+import study.wyy.java8.lambda.filter.impl.AppleFilterByGreenAndWeightLess180;
+import study.wyy.java8.lambda.model.Apple;
+import study.wyy.java8.lambda.service.AppleService;
 
 import java.util.Arrays;
 import java.util.List;
@@ -62,6 +62,7 @@ public class AppleClientClass {
     public void testFindAppleByFilter2(){
         // 使用匿名内部类，在调用的时候进行设置实时的过滤规则
         List<Apple> greenApples = appleService.filterApple(apples, new AppleFilter() {
+
             @Override
             public boolean filter(Apple apple) {
 
@@ -70,6 +71,36 @@ public class AppleClientClass {
         });
         logger.info("选出黄苹果 => [{}]", greenApples);
         assertThat(greenApples.size(), equalTo(1));
+    }
+
+
+//    @Test
+//    public void testFindAppleByFilterLambda(){
+//        // 使用匿名内部类，在调用的时候进行设置实时的过滤规则
+//        List<Apple> yellowApples = appleService.filterApple(apples,(Apple apple) -> {
+//            return apple.getColol().equals("yellow");
+//        });
+//
+//        logger.info("选出黄苹果 => [{}]", yellowApples);
+//        assertThat(yellowApples.size(), equalTo(1));
+//    }
+
+    /*简写*/
+    @Test
+    public void testFindAppleByFilterLambda(){
+        // 使用匿名内部类，在调用的时候进行设置实时的过滤规则
+        List<Apple> yellowApples = appleService.filterApple(apples,apple ->
+             apple.getColol().equals("yellow")
+        );
+        logger.info("选出黄苹果 => [{}]", yellowApples);
+        assertThat(yellowApples.size(), equalTo(1));
+    }
+
+    @Test
+    public void testFindApplePredicate(){
+        List<Apple> yellowApples = appleService.filterApplePredicate(AppleClientClass.apples, apple -> apple.getColol().equals("yellow"));
+        logger.info("选出黄苹果 => [{}]", yellowApples);
+        assertThat(yellowApples.size(), equalTo(1));
     }
 
 

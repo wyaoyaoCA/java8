@@ -1,7 +1,7 @@
-package study.wyy.java8.start.filter.impl;
+package study.wyy.java8.lambda.filter.impl;
 
-import study.wyy.java8.start.filter.AppleFilter;
-import study.wyy.java8.start.model.Apple;
+import study.wyy.java8.lambda.filter.AppleFilter;
+import study.wyy.java8.lambda.model.Apple;
 
 /**
  * @author ：wyy
@@ -11,6 +11,7 @@ import study.wyy.java8.start.model.Apple;
  * @version: $
  */
 public class AppleFilterByGreenAndWeightLess180 implements AppleFilter {
+
     @Override
     public boolean filter(Apple apple) {
         return (apple.getColol().equals("green") && apple.getWeight() <= 180);

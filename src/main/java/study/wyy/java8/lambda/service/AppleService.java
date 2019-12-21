@@ -1,10 +1,11 @@
-package study.wyy.java8.start.service;
+package study.wyy.java8.lambda.service;
 
-import study.wyy.java8.start.filter.AppleFilter;
-import study.wyy.java8.start.model.Apple;
+import study.wyy.java8.lambda.filter.AppleFilter;
+import study.wyy.java8.lambda.model.Apple;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 /**
  * @author ：wyy
@@ -47,6 +48,17 @@ public class AppleService {
         List<Apple> result = new ArrayList<>();
         for (Apple apple : apples) {
             if(appleFilter.filter(apple)){
+                result.add(apple);
+            }
+        }
+        return result;
+    }
+
+
+    public List<Apple> filterApplePredicate(List<Apple> apples, Predicate<Apple> appleFilter){
+        List<Apple> result = new ArrayList<>();
+        for (Apple apple : apples) {
+            if(appleFilter.test(apple)){
                 result.add(apple);
             }
         }

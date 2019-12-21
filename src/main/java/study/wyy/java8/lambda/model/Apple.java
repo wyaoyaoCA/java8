@@ -1,4 +1,4 @@
-package study.wyy.java8.start.model;
+package study.wyy.java8.lambda.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
